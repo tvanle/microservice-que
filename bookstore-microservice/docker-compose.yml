@@ -1,0 +1,28 @@
+services:
+  customer-service:
+    build: ./customer-service
+    ports:
+      - "8011:8000"
+    depends_on:
+      - cart-service
+
+  book-service:
+    build: ./book-service
+    ports:
+      - "8012:8000"
+
+  cart-service:
+    build: ./cart-service
+    ports:
+      - "8013:8000"
+    depends_on:
+      - book-service
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8010:8000"
+    depends_on:
+      - customer-service
+      - book-service
+      - cart-service
