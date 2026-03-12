@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Nhân viên — Fahasa{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <h1><span class="icon">💼</span> Quản lý nhân viên</h1>
+    <div class="breadcrumb">Trang chủ &rsaquo; <span>Nhân viên</span></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="stats-bar">
+  <div class="stat-card">
+    <div class="stat-icon">👨‍💼</div>
+    <div><div class="stat-value">{{ staff|length }}</div><div class="stat-label">Tổng nhân viên</div></div>
+  </div>
+</div>
+
+{% if staff %}
+<div class="table-wrap">
+  <table class="data-table">
+    <thead>
+      <tr><th>ID</th><th>Tên</th><th>Email</th><th>Chức vụ</th><th>Mã NV</th><th>Trạng thái</th></tr>
+    </thead>
+    <tbody>
+      {% for s in staff %}
+      <tr>
+        <td>{{ s.id }}</td>
+        <td>👤 {{ s.name }}</td>
+        <td>{{ s.email }}</td>
+        <td><span class="badge badge-primary">{{ s.role }}</span></td>
+        <td><code>{{ s.employee_id }}</code></td>
+        <td>
+          {% if s.is_active %}<span class="badge badge-success">● Đang làm việc</span>
+          {% else %}<span class="badge badge-danger">● Nghỉ việc</span>{% endif %}
+        </td>
+      </tr>
+      {% empty %}
+      <tr class="empty-row"><td colspan="6">Chưa có nhân viên nào.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <div class="empty-icon">👨‍💼</div>
+  <h3>Chưa có dữ liệu nhân viên</h3>
+</div>
+{% endif %}
+{% endblock %}

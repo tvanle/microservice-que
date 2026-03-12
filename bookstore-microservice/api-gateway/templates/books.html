@@ -1,14 +1,64 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Book List</title>
-</head>
-<body>
-    <h2>Book List</h2>
-    <ul>
-    {% for book in books %}
-        <li>{{ book.title }} - ${{ book.price }}</li>
-    {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Danh sách sách — Fahasa{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <h1><span class="icon">📚</span> Quản lý sách</h1>
+    <div class="breadcrumb">Trang chủ &rsaquo; <span>Sách</span></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="stats-bar">
+  <div class="stat-card">
+    <div class="stat-icon">📚</div>
+    <div><div class="stat-value">{{ books|length }}</div><div class="stat-label">Tổng số sách</div></div>
+  </div>
+  <div class="stat-card accent">
+    <div class="stat-icon">🏷️</div>
+    <div><div class="stat-value">{{ books|length }}</div><div class="stat-label">Đang bán</div></div>
+  </div>
+</div>
+
+{% if books %}
+<div class="card">
+  <div class="card-header">
+    <span>📖 Danh sách sách</span>
+    <span style="font-size:13px;opacity:.8;">{{ books|length }} cuốn sách</span>
+  </div>
+  <div class="card-body">
+    <div class="book-grid">
+      {% for book in books %}
+      <div class="book-card">
+        <div class="book-cover"><span class="book-emoji">📖</span></div>
+        <div class="book-info">
+          <div class="book-title">{{ book.title }}</div>
+          <div class="book-author">✍️ {{ book.author }}</div>
+          <div class="book-price">{{ book.price|floatformat:0 }}₫</div>
+          <div class="book-stock">
+            {% if book.stock > 0 %}
+              <span style="color:#28a745;">● Còn hàng ({{ book.stock }})</span>
+            {% else %}
+              <span style="color:#dc3545;">● Hết hàng</span>
+            {% endif %}
+          </div>
+        </div>
+        <div class="book-actions">
+          <a href="/books/{{ book.id }}/comments/" class="btn btn-outline btn-sm">💬 Đánh giá</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="empty-state">
+  <div class="empty-icon">📭</div>
+  <h3>Chưa có sách nào</h3>
+  <p>Hệ thống chưa có dữ liệu sách.</p>
+</div>
+{% endif %}
+{% endblock %}

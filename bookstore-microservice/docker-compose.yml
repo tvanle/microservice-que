@@ -1,10 +1,23 @@
 services:
+  staff-service:
+    build: ./staff-service
+    ports:
+      - "8014:8000"
+
+  manager-service:
+    build: ./manager-service
+    ports:
+      - "8015:8000"
+
   customer-service:
     build: ./customer-service
     ports:
       - "8011:8000"
-    depends_on:
-      - cart-service
+
+  catalog-service:
+    build: ./catalog-service
+    ports:
+      - "8016:8000"
 
   book-service:
     build: ./book-service
@@ -18,11 +31,57 @@ services:
     depends_on:
       - book-service
 
+  order-service:
+    build: ./order-service
+    ports:
+      - "8017:8000"
+    depends_on:
+      - customer-service
+      - book-service
+
+  ship-service:
+    build: ./ship-service
+    ports:
+      - "8018:8000"
+    depends_on:
+      - order-service
+
+  pay-service:
+    build: ./pay-service
+    ports:
+      - "8019:8000"
+    depends_on:
+      - order-service
+
+  comment-rate-service:
+    build: ./comment-rate-service
+    ports:
+      - "8020:8000"
+    depends_on:
+      - book-service
+      - customer-service
+
+  recommender-ai-service:
+    build: ./recommender-ai-service
+    ports:
+      - "8021:8000"
+    depends_on:
+      - comment-rate-service
+      - book-service
+
   api-gateway:
     build: ./api-gateway
     ports:
       - "8010:8000"
     depends_on:
+      - staff-service
+      - manager-service
       - customer-service
+      - catalog-service
       - book-service
       - cart-service
+      - order-service
+      - ship-service
+      - pay-service
+      - comment-rate-service
+      - recommender-ai-service

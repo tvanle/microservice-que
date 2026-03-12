@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Thanh toán — Fahasa{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <h1><span class="icon">💳</span> Quản lý thanh toán</h1>
+    <div class="breadcrumb">Trang chủ &rsaquo; <span>Thanh toán</span></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="stats-bar">
+  <div class="stat-card success">
+    <div class="stat-icon">💳</div>
+    <div><div class="stat-value">{{ payments|length }}</div><div class="stat-label">Tổng giao dịch</div></div>
+  </div>
+</div>
+
+{% if payments %}
+<div class="table-wrap">
+  <table class="data-table">
+    <thead>
+      <tr><th>ID</th><th>Đơn hàng</th><th>Khách hàng</th><th>Số tiền</th><th>Phương thức</th><th>Trạng thái</th><th>Ngày</th></tr>
+    </thead>
+    <tbody>
+      {% for p in payments %}
+      <tr>
+        <td>{{ p.id }}</td>
+        <td>📋 #{{ p.order_id }}</td>
+        <td>KH #{{ p.customer_id }}</td>
+        <td><strong>{{ p.amount|floatformat:0 }}₫</strong></td>
+        <td>
+          {% if p.payment_method == 'credit_card' %}💳 Thẻ tín dụng
+          {% elif p.payment_method == 'cash' %}💵 Tiền mặt
+          {% elif p.payment_method == 'bank_transfer' %}🏦 Chuyển khoản
+          {% elif p.payment_method == 'momo' %}📱 MoMo
+          {% else %}{{ p.payment_method }}{% endif %}
+        </td>
+        <td>
+          {% if p.status == 'completed' %}<span class="badge badge-success">✅ Thành công</span>
+          {% elif p.status == 'pending' %}<span class="badge badge-warning">⏳ Chờ xử lý</span>
+          {% elif p.status == 'failed' %}<span class="badge badge-danger">❌ Thất bại</span>
+          {% elif p.status == 'refunded' %}<span class="badge badge-secondary">↩️ Hoàn tiền</span>
+          {% else %}<span class="badge badge-secondary">{{ p.status }}</span>{% endif %}
+        </td>
+        <td>{{ p.created_at }}</td>
+      </tr>
+      {% empty %}
+      <tr class="empty-row"><td colspan="7">Chưa có giao dịch nào.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <div class="empty-icon">💳</div>
+  <h3>Chưa có giao dịch thanh toán</h3>
+</div>
+{% endif %}
+{% endblock %}
