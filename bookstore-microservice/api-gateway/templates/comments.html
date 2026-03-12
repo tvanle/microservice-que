@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Đánh giá sách #{{ book_id }} — Fahasa{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <h1><span class="icon">💬</span> Đánh giá &amp; Nhận xét — Sách #{{ book_id }}</h1>
+    <div class="breadcrumb">Trang chủ &rsaquo; <a href="/books/">Sách</a> &rsaquo; <span>Đánh giá</span></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+{% if ratings.average_score %}
+<div style="margin-bottom:20px;">
+  <div class="avg-score" style="font-size:18px;padding:10px 20px;">
+    ⭐ Điểm trung bình: {{ ratings.average_score }}/5
+    <span class="stars" style="font-size:20px;">
+      {% if ratings.average_score >= 1 %}★{% else %}☆{% endif %}
+      {% if ratings.average_score >= 2 %}★{% else %}☆{% endif %}
+      {% if ratings.average_score >= 3 %}★{% else %}☆{% endif %}
+      {% if ratings.average_score >= 4 %}★{% else %}☆{% endif %}
+      {% if ratings.average_score >= 5 %}★{% else %}☆{% endif %}
+    </span>
+  </div>
+</div>
+{% endif %}
+
+{% if comments %}
+  {% for c in comments %}
+  <div class="comment-card">
+    <div class="comment-meta">
+      <span class="comment-author">👤 Khách hàng #{{ c.customer_id }}</span>
+      <span class="comment-date">{{ c.created_at }}</span>
+    </div>
+    <div class="comment-body">{{ c.content }}</div>
+  </div>
+  {% endfor %}
+{% else %}
+<div class="empty-state">
+  <div class="empty-icon">💬</div>
+  <h3>Chưa có nhận xét nào</h3>
+  <p>Hãy là người đầu tiên đánh giá cuốn sách này!</p>
+</div>
+{% endif %}
+{% endblock %}

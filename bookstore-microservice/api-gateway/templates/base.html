@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Fahasa Bookstore{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/fahasa.css' %}">
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="container">
+      <span>&#128218; Hệ thống quản lý nhà sách Fahasa</span>
+      <span>Hotline: <a href="#">1800 6333</a> &nbsp;|&nbsp; <a href="#">Trợ giúp</a></span>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/">
+        <div class="logo-icon">F</div>
+        <div class="logo-text">
+          FAHASA
+          <small>Nhà sách trực tuyến</small>
+        </div>
+      </a>
+      <div class="header-search">
+        <input type="text" placeholder="Tìm kiếm sách, tác giả, thể loại...">
+        <button>&#128269;</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVIGATION -->
+  <nav class="main-nav">
+    <div class="container">
+      <ul>
+        <li><a href="/" {% if request.path == '/' %}class="active"{% endif %}>&#127968; Trang chủ</a></li>
+        <li><a href="/books/" {% if '/books/' in request.path %}class="active"{% endif %}>&#128218; Sách</a></li>
+        <li><a href="/customers/" {% if '/customers/' in request.path %}class="active"{% endif %}>&#128100; Khách hàng</a></li>
+        <li><a href="/orders/" {% if '/orders/' in request.path %}class="active"{% endif %}>&#128203; Đơn hàng</a></li>
+        <li><a href="/shipments/" {% if '/shipments/' in request.path %}class="active"{% endif %}>&#128666; Vận chuyển</a></li>
+        <li><a href="/payments/" {% if '/payments/' in request.path %}class="active"{% endif %}>&#128179; Thanh toán</a></li>
+        <li><a href="/staff/" {% if '/staff/' in request.path %}class="active"{% endif %}>&#128188; Nhân viên</a></li>
+        <li><a href="/managers/" {% if '/managers/' in request.path %}class="active"{% endif %}>&#127970; Quản lý</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  {% block page_header %}{% endblock %}
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>&#128218; Fahasa Bookstore</h4>
+          <ul>
+            <li><a href="#">Giới thiệu</a></li>
+            <li><a href="#">Tuyển dụng</a></li>
+            <li><a href="#">Tin tức</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Hỗ trợ khách hàng</h4>
+          <ul>
+            <li><a href="#">Hướng dẫn đặt hàng</a></li>
+            <li><a href="#">Chính sách đổi trả</a></li>
+            <li><a href="#">Chính sách vận chuyển</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Liên hệ</h4>
+          <ul>
+            <li><a href="#">Hotline: 1800 6333</a></li>
+            <li><a href="#">Email: support@fahasa.com</a></li>
+            <li><a href="#">60A Trường Sơn, Q.Tân Bình, TP.HCM</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Quản trị hệ thống</h4>
+          <ul>
+            <li><a href="/staff/">Nhân viên</a></li>
+            <li><a href="/managers/">Quản lý</a></li>
+            <li><a href="/orders/">Đơn hàng</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2024 Fahasa Bookstore Microservice System &mdash; Built with Django &amp; Docker
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

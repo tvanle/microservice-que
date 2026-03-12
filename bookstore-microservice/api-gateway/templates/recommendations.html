@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Gợi ý sách — Fahasa{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <h1><span class="icon">✨</span> Sách gợi ý cho khách #{{ customer_id }}</h1>
+    <div class="breadcrumb">Trang chủ &rsaquo; <a href="/customers/">Khách hàng</a> &rsaquo; <span>Gợi ý</span></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+{% if books %}
+<div class="book-grid">
+  {% for book in books %}
+  <div class="book-card">
+    <div class="book-cover"><span class="book-emoji">⭐</span></div>
+    <div class="book-info">
+      <div class="book-title">{{ book.title }}</div>
+      <div class="book-author">✍️ {{ book.author }}</div>
+      <div class="book-price">{{ book.price|floatformat:0 }}₫</div>
+    </div>
+    <div class="book-actions">
+      <a href="/books/{{ book.id }}/comments/" class="btn btn-outline btn-sm">💬 Xem đánh giá</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+  <div class="empty-icon">✨</div>
+  <h3>Chưa có gợi ý</h3>
+  <p>Hãy đánh giá một vài cuốn sách để hệ thống gợi ý phù hợp hơn!</p>
+  <a href="/books/" class="btn btn-primary" style="margin-top:14px;">📚 Xem sách</a>
+</div>
+{% endif %}
+{% endblock %}

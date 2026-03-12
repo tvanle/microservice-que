@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Vận chuyển — Fahasa{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <h1><span class="icon">🚚</span> Quản lý vận chuyển</h1>
+    <div class="breadcrumb">Trang chủ &rsaquo; <span>Vận chuyển</span></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="stats-bar">
+  <div class="stat-card info">
+    <div class="stat-icon">🚚</div>
+    <div><div class="stat-value">{{ shipments|length }}</div><div class="stat-label">Tổng đơn vận chuyển</div></div>
+  </div>
+</div>
+
+{% if shipments %}
+<div class="table-wrap">
+  <table class="data-table">
+    <thead>
+      <tr><th>ID</th><th>Đơn hàng</th><th>Địa chỉ</th><th>Thành phố</th><th>Trạng thái</th><th>Mã tracking</th><th>Dự kiến giao</th></tr>
+    </thead>
+    <tbody>
+      {% for s in shipments %}
+      <tr>
+        <td>{{ s.id }}</td>
+        <td>📋 #{{ s.order_id }}</td>
+        <td>{{ s.address }}</td>
+        <td>{{ s.city }}</td>
+        <td>
+          {% if s.status == 'pending' %}<span class="badge badge-warning">⏳ Chờ lấy hàng</span>
+          {% elif s.status == 'in_transit' %}<span class="badge badge-info">🚚 Đang vận chuyển</span>
+          {% elif s.status == 'delivered' %}<span class="badge badge-success">✅ Đã giao</span>
+          {% elif s.status == 'failed' %}<span class="badge badge-danger">❌ Thất bại</span>
+          {% else %}<span class="badge badge-secondary">{{ s.status }}</span>{% endif %}
+        </td>
+        <td><code>{{ s.tracking_number }}</code></td>
+        <td>{{ s.estimated_delivery }}</td>
+      </tr>
+      {% empty %}
+      <tr class="empty-row"><td colspan="7">Chưa có đơn vận chuyển nào.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <div class="empty-icon">🚚</div>
+  <h3>Chưa có dữ liệu vận chuyển</h3>
+</div>
+{% endif %}
+{% endblock %}

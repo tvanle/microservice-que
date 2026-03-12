@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Đơn hàng — Fahasa{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <h1><span class="icon">📋</span>
+      {% if customer_id %}Đơn hàng của khách #{{ customer_id }}{% else %}Quản lý đơn hàng{% endif %}
+    </h1>
+    <div class="breadcrumb">Trang chủ &rsaquo; <span>Đơn hàng</span></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="stats-bar">
+  <div class="stat-card">
+    <div class="stat-icon">📋</div>
+    <div><div class="stat-value">{{ orders|length }}</div><div class="stat-label">Tổng đơn hàng</div></div>
+  </div>
+</div>
+
+{% if orders %}
+<div class="table-wrap">
+  <table class="data-table">
+    <thead>
+      <tr><th>ID</th><th>Khách hàng</th><th>Trạng thái</th><th>Tổng tiền</th><th>Ngày tạo</th></tr>
+    </thead>
+    <tbody>
+      {% for o in orders %}
+      <tr>
+        <td>{{ o.id }}</td>
+        <td>KH #{{ o.customer_id }}</td>
+        <td>
+          {% if o.status == 'pending' %}<span class="badge badge-warning">⏳ Chờ xử lý</span>
+          {% elif o.status == 'confirmed' %}<span class="badge badge-info">✅ Đã xác nhận</span>
+          {% elif o.status == 'shipped' %}<span class="badge badge-purple">🚚 Đang giao</span>
+          {% elif o.status == 'delivered' %}<span class="badge badge-success">📦 Đã giao</span>
+          {% elif o.status == 'cancelled' %}<span class="badge badge-danger">❌ Đã huỷ</span>
+          {% else %}<span class="badge badge-secondary">{{ o.status }}</span>{% endif %}
+        </td>
+        <td><strong>{{ o.total_amount|floatformat:0 }}₫</strong></td>
+        <td>{{ o.created_at }}</td>
+      </tr>
+      {% empty %}
+      <tr class="empty-row"><td colspan="5">Chưa có đơn hàng nào.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <div class="empty-icon">📋</div>
+  <h3>Chưa có đơn hàng</h3>
+</div>
+{% endif %}
+{% endblock %}

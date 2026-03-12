@@ -1,14 +1,40 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Your Cart</title>
-</head>
-<body>
-    <h2>Your Cart</h2>
-    <ul>
-    {% for item in items %}
-        <li>Book ID: {{ item.book_id }} | Qty: {{ item.quantity }}</li>
-    {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Giỏ hàng — Fahasa{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+  <div class="container">
+    <h1><span class="icon">🛒</span> Giỏ hàng</h1>
+    <div class="breadcrumb">Trang chủ &rsaquo; <span>Giỏ hàng</span></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+{% if items %}
+<div class="table-wrap">
+  <table class="data-table">
+    <thead>
+      <tr><th>STT</th><th>Mã sách</th><th>Số lượng</th></tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td><span class="badge badge-primary">#{{ item.book_id }}</span></td>
+        <td>{{ item.quantity }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">
+  <div class="empty-icon">🛒</div>
+  <h3>Giỏ hàng trống</h3>
+  <p>Chưa có sản phẩm nào trong giỏ hàng.</p>
+  <a href="/books/" class="btn btn-primary" style="margin-top:14px;">📚 Xem sách</a>
+</div>
+{% endif %}
+{% endblock %}
