@@ -275,7 +275,9 @@ a:hover { color: var(--primary-dark); text-decoration: underline; }
   color: var(--text);
   margin-bottom: 4px;
   display: -webkit-box;
+  /* stylelint-disable-next-line */
   -webkit-line-clamp: 2;
+  /* stylelint-disable-next-line */
   -webkit-box-orient: vertical;
   overflow: hidden;
   line-height: 1.4;
